@@ -1,0 +1,16 @@
+사진정리
+
+월 별
+
+매달 사진,비디오를 달별로 백업
+
+동영상: video 폴더
+video: mp4,mov
+capture: png,aae
+duplicated: 수정된파일은 원폰파일이 이곳으로
+나머지 사진들
+
+node photo test
+
+로그 출력
+
