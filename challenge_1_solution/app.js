@@ -1,20 +1,20 @@
-const path = require('path');
-const os = require('os');
-const fs = require('fs');
+const path = require("path");
+const os = require("os");
+const fs = require("fs");
 
 // 계획
 // 1. 사용자가 원하는 폴더의 이름을 받아온다
 const folder = process.argv[2];
-const workingDir = path.join(os.homedir(), 'Pictures', folder);
+const workingDir = path.join(os.homedir(), "Pictures", folder);
 if (!folder || !fs.existsSync(workingDir)) {
-  console.error('Please enter folder name in Pictures');
+  console.error("Please enter folder name in Pictures");
   return;
 }
 
 // 2. 그 폴더안에 video, captured, duplicated 폴더를 만든다
-const videoDir = path.join(workingDir, 'video');
-const capturedDir = path.join(workingDir, 'captured');
-const duplicatedDir = path.join(workingDir, 'duplicated');
+const videoDir = path.join(workingDir, "video");
+const capturedDir = path.join(workingDir, "captured");
+const duplicatedDir = path.join(workingDir, "duplicated");
 
 !fs.existsSync(videoDir) && fs.mkdirSync(videoDir);
 !fs.existsSync(capturedDir) && fs.mkdirSync(capturedDir);
@@ -52,11 +52,11 @@ function isCapturedFile(file) {
 
 function isDuplicatedFile(files, file) {
   // IMG_XXXX  -> IMG_EXXX
-  if (!file.startsWith('IMG_') || file.startsWith('IMG_E')) {
+  if (!file.starsWith("IMG_") || file.startsWith("IMG_E")) {
     return false;
   }
 
-  const edited = `IMG_E${file.split('_')[1]}`;
+  const edited = `IMG_E${file.split("_")[1]}`;
   const found = files.find((f) => f.includes(edited));
   return !!found;
 }

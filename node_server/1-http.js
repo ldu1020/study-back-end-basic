@@ -3,12 +3,8 @@ const http = require("http");
 
 const server = http.createServer((req, res) => {
   console.log("incomming");
-  console.log(req.headers);
-  console.log(req.httpVersion);
-  console.log(req.method);
-  console.log(req.url);
-
-  res.write("welcome");
+  const { url } = req;
+  res.white("well");
   res.end();
 });
 
