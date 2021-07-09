@@ -40,10 +40,9 @@ const moveToFolder = (basis, fileName, folderName) => {
 
 fs.readdir(target).then((res) => {
   res.forEach((fileName) => {
-    console.log(path.parse(fileName));
-
     const { name, ext } = path.parse(fileName);
     if (isCapture(ext)) {
+      console.log();
       moveToFolder(target, fileName, "capture");
       return;
     }
