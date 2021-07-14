@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require("fs");
 
 // 3
 // rename(...., callback(error, data))
@@ -6,17 +6,17 @@ const fs = require('fs');
 // promises.rename().then().catch(0)
 
 try {
-  fs.renameSync('./text.txt', './text-new.txt');
+  fs.renameSync("./text.txt", "./text-new.txt");
 } catch (error) {
   console.error(error);
 }
 
-fs.rename('./text-new.txt', './text.txt', (error) => {
+fs.rename("./text-new.txt", "./text.txt", (error) => {
   console.log(error);
 });
-console.log('hello');
+console.log("hello");
 
 fs.promises
-  .rename('./text2.txt', './text-new.txt') //
-  .then(() => console.log('Done!'))
+  .rename("./text2.txt", "./text-new.txt") //
+  .then(() => console.log("Done!"))
   .catch(console.error);
