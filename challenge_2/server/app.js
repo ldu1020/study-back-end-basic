@@ -119,6 +119,11 @@ app.delete("/tweets/:id", (req, res) => {
 });
 
 app.use((req, res) => {
+  res.sendStatus(404);
+});
+
+app.use((error, req, res, next) => {
+  console.error();
   res.sendStatus(500);
 });
 
