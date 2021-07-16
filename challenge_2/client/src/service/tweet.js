@@ -1,70 +1,49 @@
 export default class TweetService {
-  basis = "http://localhost:8080";
+  constructor(http, tokenStorage, socket) {
+    this.http = http;
+    this.tokenStorage = tokenStorage;
+    this.socket = socket;
+  }
 
   async getTweets(username) {
-    return fetch(
-      `${this.basis}/tweets${username ? `?username=${username}` : ""}`
-    ).then((res) => res.json());
+    const query = username ? `?username=${username}` : '';
+    return this.http.fetch(`/tweets${query}`, {
+      method: 'GET',
+      headers: this.getHeaders(),
+    });
   }
 
   async postTweet(text) {
-    const tweet = {
-      id: Date.now(),
-      createdAt: new Date(),
-      name: "Ellie",
-      username: "ellie",
-      text,
-    };
-
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    const raw = JSON.stringify({
-      username: tweet.username,
-      text: text,
+    return this.http.fetch(`/tweets`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify({ text, username: 'ellie', name: 'Ellie' }),
     });
-
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
-
-    return fetch(`${this.basis}/tweets`, requestOptions)
-      .then((response) => response.json())
-      .catch((error) => console.log("error", error));
   }
 
   async deleteTweet(tweetId) {
-    const requestOptions = {
-      method: "DELETE",
-      redirect: "follow",
-    };
-
-    fetch(`${this.basis}/tweets/${tweetId}`, requestOptions)
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.log("error", error));
+    return this.http.fetch(`/tweets/${tweetId}`, {
+      method: 'DELETE',
+      headers: this.getHeaders(),
+    });
   }
 
   async updateTweet(tweetId, text) {
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    const raw = JSON.stringify({
-      text,
+    return this.http.fetch(`/tweets/${tweetId}`, {
+      method: 'PUT',
+      headers: this.getHeaders(),
+      body: JSON.stringify({ text }),
     });
+  }
 
-    const requestOptions = {
-      method: "PUT",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
+  getHeaders() {
+    const token = this.tokenStorage.getToken();
+    return {
+      Authorization: `Bearer ${token}`,
     };
+  }
 
-    return fetch(`http://localhost:8080/tweets/${tweetId}`, requestOptions)
-      .then((response) => response.json())
-      .catch((error) => console.log("error", error));
+  onSync(callback) {
+    return this.socket.onSync('tweets', callback);
   }
 }
